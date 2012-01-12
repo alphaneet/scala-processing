@@ -1,4 +1,4 @@
-package com.github.alphaneet.scala.processing
+package com.github.alphaneet.processing
 
 abstract class SPApplet extends processing.core.PApplet {
   applet =>
