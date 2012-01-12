@@ -1,6 +1,6 @@
-package com.github.alphaneet.scala_processing
+package com.github.alphaneet.scala.processing
 
-abstract class PApplet extends processing.core.PApplet {
+abstract class SPApplet extends processing.core.PApplet {
   applet =>
 
   type Dimension = java.awt.Dimension
@@ -9,7 +9,7 @@ abstract class PApplet extends processing.core.PApplet {
 
   private var _swing: Option[Swing] = None
   def swing = _swing
-  private[scala_processing] def swing_=(swing: Swing) {
+  private[processing] def swing_=(swing: Swing) {
     _swing foreach {
       old =>
       applet.remove(old)
@@ -21,7 +21,7 @@ abstract class PApplet extends processing.core.PApplet {
   
   private var _scene: Scene = new Scene(applet) { override def register() {} }
   def scene = _scene
-  private[scala_processing] def scene_=(nextScene: Scene) {
+  private[processing] def scene_=(nextScene: Scene) {
     swing   = null
     _scene  = nextScene
   }  
@@ -107,7 +107,7 @@ abstract class PApplet extends processing.core.PApplet {
     )
 }
  
-class Scene(applet: PApplet) extends NotNull {
+class Scene(applet: SPApplet) extends NotNull {
   register()
   def register(): Unit = applet.scene = this
   def draw() {}
@@ -121,7 +121,7 @@ class Scene(applet: PApplet) extends NotNull {
 }
 
 trait MyUtil {
-  this: { val applet: PApplet } =>
+  this: { val applet: SPApplet } =>
 
   import processing.core.PGraphics     
   import applet.{ mouseX, mouseY }
@@ -155,14 +155,14 @@ trait MyUtil {
   }
 }
 
-class Swing(applet: PApplet) extends javax.swing.JPanel(null) {
+class Swing(applet: SPApplet) extends javax.swing.JPanel(null) {
   setOpaque(false)
   setSize(applet.screenSize)  
   setPreferredSize(applet.screenSize)
   applet.swing = this
 }
 
-class SwingManager(val applet: PApplet) extends NotNull {  
+class SwingManager(val applet: SPApplet) extends NotNull {  
   val swing = new Swing(applet)
   
   trait Component extends javax.swing.JComponent {
@@ -175,7 +175,7 @@ class SwingManager(val applet: PApplet) extends NotNull {
   }
 }
 
-class TextManager(applet: PApplet) extends SwingManager(applet) with MyUtil {
+class TextManager(applet: SPApplet) extends SwingManager(applet) with MyUtil {
   val textFields = scala.collection.mutable.ArrayBuffer[TextField]()
   def apply(symbol: Symbol): Option[TextField] = textFields.find(_.symbol == symbol)
 
@@ -260,7 +260,7 @@ object ButtonStatus {
   val DISABLED = Value(3)  
 }
 
-class ButtonManager(val applet: PApplet) extends NotNull with MyUtil {
+class ButtonManager(val applet: SPApplet) extends NotNull with MyUtil {
   buttonManager =>
     
   import processing.core.{ PImage, PVector, PConstants }
@@ -401,7 +401,7 @@ class ButtonManager(val applet: PApplet) extends NotNull with MyUtil {
   def draw() = buttons.foreach(_.draw())
 }
 
-class ListManager(applet: PApplet) extends ButtonManager(applet) {
+class ListManager(applet: SPApplet) extends ButtonManager(applet) {
   listManager =>
  
   import processing.core.PImage
