@@ -1,4 +1,4 @@
-package com.github.alphaneet.scala.processing
+package com.github.alphaneet.scala_processing
 
 abstract class SPApplet extends processing.core.PApplet {
   applet =>
@@ -9,7 +9,7 @@ abstract class SPApplet extends processing.core.PApplet {
 
   private var _swing: Option[Swing] = None
   def swing = _swing
-  private[processing] def swing_=(swing: Swing) {
+  private[scala_processing] def swing_=(swing: Swing) {
     _swing foreach {
       old =>
       applet.remove(old)
@@ -21,7 +21,7 @@ abstract class SPApplet extends processing.core.PApplet {
   
   private var _scene: Scene = new Scene(applet) { override def register() {} }
   def scene = _scene
-  private[processing] def scene_=(nextScene: Scene) {
+  private[scala_processing] def scene_=(nextScene: Scene) {
     swing   = null
     _scene  = nextScene
   }  
